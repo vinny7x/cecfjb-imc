@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <meta name="description" content="Calculadora de IMC (Índice de Massa Corporal) que permite aos usuários calcular seu IMC com base em peso e altura, além de fornecer uma tabela de classificação de status de IMC. Desenvolvido por Vinícios Mendes, 3º ano A">
+    <meta name="keywords" content="Calculadora IMC, IMC, Índice de Massa Corporal, saúde, peso, altura, saúde pessoal">
+    <meta name="author" content="Vinícios Mendes, 3º ano A">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Calculadora de IMC">
+    <meta property="og:description" content="Uma ferramenta fácil de usar para calcular seu IMC e entender seu status de peso.">
+    <meta property="og:type" content="website">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative; 
+        }
+
+        .logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .logo img {
+            width: 150px; 
+            height: auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px; 
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; 
+        }
+
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #resultPopup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .close-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background-color: #c82333;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        /* Estilos para a tabela de IMC */
+        .imc-table {
+            margin-top: 20px;
+            border-collapse: collapse; 
+            width: 300px; 
+        }
+
+        .imc-table th, .imc-table td {
+            border: 1px solid #ccc; /* Borda das células */
+            padding: 10px;
+            text-align: center; /* Centraliza o texto */
+        }
+
+        .underweight {
+            background-color: #fff3cd; /* Abaixo do peso */
+            color: #856404;
+        }
+
+        .normal-weight {
+            background-color: #d4edda; /* Peso normal */
+            color: #155724;
+        }
+
+        .overweight {
+            background-color: #ffeeba; /* Sobrepeso */
+            color: #856404;
+        }
+
+        .obese {
+            background-color: #f8d7da; /* Obesidade */
+            color: #721c24;
+        }
+
+        /* Estilos para o tema escuro */
+        body.dark {
+            background-color: #121212; 
+            color: white;
+        }
+
+        body.dark .container {
+            background-color: #1f1f1f; 
+            color: white;
+        }
+
+        body.dark input {
+            border: 1px solid #666;
+            background-color: #333; 
+            color: white;
+        }
+
+        body.dark h1 {
+            color: white;
+        }
+
+        body.dark .close-btn {
+            background-color: #c82333;
+        }
+
+        body.dark .close-btn:hover {
+            background-color: #bd2130;
+        }
+
+        body.dark footer {
+            color: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="https://imgur.com/j4xAdZv.jpg" alt="Logo">
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Mudar tema">
+        ☀️
+    </button>
+
+    <div class="container">
+        <h1>Calculadora de IMC</h1>
+        <form id="imcForm">
+            <label for="weight">Peso (kg):</label>
+            <input type="number" id="weight" step="0.1" required>
+
+            <label for="height">Altura (m):</label>
+            <input type="number" id="height" step="0.01" required>
+
+            <button type="submit">Calcular</button>
+        </form>
+    </div>
+
+    <div id="resultPopup">
+        <div class="popup-content" id="popupContent">
+            <div id="result"></div>
+            <button class="close-btn" id="closePopup">Fechar</button>
+        </div>
+    </div>
+
+    <table class="imc-table">
+        <thead>
+            <tr>
+                <th>IMC</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Abaixo de 18.5</td>
+                <td class="underweight">Abaixo do peso</td>
+            </tr>
+            <tr>
+                <td>18.5 a 24.9</td>
+                <td class="normal-weight">Peso normal</td>
+            </tr>
+            <tr>
+                <td>25 a 29.9</td>
+                <td class="overweight">Sobrepeso</td>
+            </tr>
+            <tr>
+                <td>30 e acima</td>
+                <td class="obese">Obesidade</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <footer>Site feito por Vinícios Mendes</footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        let isDarkTheme = false;
+
+        themeToggle.addEventListener('click', function() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark', isDarkTheme);
+            themeToggle.textContent = isDarkTheme ? '🌙' : '☀️'; 
+        });
+
+        document.getElementById('imcForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let weight = parseFloat(document.getElementById('weight').value);
+            let height = parseFloat(document.getElementById('height').value);
+
+            if (weight > 0 && height > 0) {
+                let imc = (weight / (height * height)).toFixed(2);
+                let message = '';
+                let popupClass = '';
+
+                if (imc < 18.5) {
+                    message = 'Abaixo do peso';
+                    popupClass = 'underweight';
+                } else if (imc >= 18.5 && imc < 24.9) {
+                    message = 'Peso normal';
+                    popupClass = 'normal-weight';
+                } else if (imc >= 25 && imc < 29.9) {
+                    message = 'Sobrepeso';
+                    popupClass = 'overweight';
+                } else {
+                    message = 'Obesidade';
+                    popupClass = 'obese';
+                }
+
+                document.getElementById('result').innerHTML = `IMC = ${imc}<br>STATUS = ${message}`;
+                
+                let popupContent = document.getElementById('popupContent');
+                popupContent.className = 'popup-content ' + popupClass;
+
+                document.getElementById('resultPopup').style.display = 'flex';
+            } else {
+                document.getElementById('result').innerHTML = 'Por favor, insira valores válidos.';
+                document.getElementById('resultPopup').style.display = 'flex';
+            }
+        });
+
+        document.getElementById('closePopup').addEventListener('click', function() {
+            document.getElementById('resultPopup').style.display = 'none';
+        });
+    </script>
+
+   
+</html>

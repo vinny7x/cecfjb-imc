@@ -1,6 +1,6 @@
 # Calculadora de IMC
 
-![Badge do Netlify](https://img.shields.io/netlify/6e9d21c6-0e1b-4f53-9a7d-441c84d3eafb)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cb250c0d-76f8-4bd8-9b82-c1a49e69288a/deploy-status)](https://app.netlify.com/sites/cecfjb-calculadoradeimc/deploys)
 
 Uma calculadora de Índice de Massa Corporal (IMC) simples e intuitiva, desenvolvida para facilitar o cálculo do IMC e fornecer informações sobre a faixa de peso correspondente.
 
